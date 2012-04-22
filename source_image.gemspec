@@ -6,10 +6,10 @@ Gem::Specification.new do |s|
   s.name        = "source_image"
   s.version     = SourceImage::VERSION
   s.authors     = ["Bryan Shelton"]
-  s.email       = ["bryan@sheltonplace.com"]
+  s.email       = ["bryan@sheltonopensolutions.com"]
   s.homepage    = ""
-  s.summary     = %q{TODO: Write a gem summary}
-  s.description = %q{TODO: Write a gem description}
+  s.summary     = %q{Source image finder from social media links}
+  s.description = %q{A quick library to find source images from social media image URLs}
 
   s.rubyforge_project = "source_image"
 
@@ -18,7 +18,5 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  # specify any dependencies here; for example:
-  # s.add_development_dependency "rspec"
-  # s.add_runtime_dependency "rest-client"
+  s.add_development_dependency 'rspec'
 end
