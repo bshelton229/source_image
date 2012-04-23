@@ -1,12 +1,23 @@
 require 'open-uri'
+require 'uri'
+require 'net/http'
 
 module SourceImage
   # Main parser class
   class Parser
+    def patterns
+     @patterns ||= [
+      [ /yfrog\.com/, :yfrog ],
+      [/ow\.ly\/i\//, :owly]
+     ]
+    end
+
+    # Parse a URL and return an array or pictures found
+    # or an empty array
     def parse(url)
       pics = []
       patterns.each do |pattern|
-        if url.match pattern[0]
+        if url =~ pattern[0]
           process = (self.send pattern[1], url)
           pics += process if not process.empty?
         end
@@ -14,13 +25,7 @@ module SourceImage
       pics.compact.uniq
     end
 
-    def patterns
-     @patterns ||= [
-      [ /yfrog\.com/, :yfrog ]
-     ]
-    end
-
-    # yFROG
+    # Yfrog image parser
     def yfrog(url)
       require 'nokogiri'
       out = []
@@ -28,8 +33,26 @@ module SourceImage
       if match
         yfrog_api_url = 'http://yfrog.com/api/xmlInfo?path=' + match[1]
         doc = Nokogiri::XML(open(yfrog_api_url))
+        # We're not interested in Videos
         if doc.css("links video_embed").count < 1 and doc.css("links image_link").count > 0
           out << doc.css("links image_link").first.text
+        end
+      end
+      out
+    end
+
+    # Ow.ly image parser
+    # Hootsuite images seem to live in ow.ly/i/#{id} urls
+    # and appear to consistently reoslve to
+    # http://static.ow.ly/photos/normal/#{id}.jpg
+    def owly(url)
+      out = []
+      match = url.match /\/([^\/]+)$/
+      if match
+        pic = "http://static.ow.ly/photos/normal/#{match[1]}.jpg"
+        # Check to see if this particular ow.ly link has a photo
+        if Net::HTTP.get_response(URI.parse(pic)).code == "200"
+          out << pic
         end
       end
       out
