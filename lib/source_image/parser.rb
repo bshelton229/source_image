@@ -8,7 +8,8 @@ module SourceImage
     def patterns
      @patterns ||= [
       [ /yfrog\.com/, :yfrog ],
-      [/ow\.ly\/i\//, :owly]
+      [/ow\.ly\/i\//, :owly],
+      [/twitpic\.com/, :twitpic]
      ]
     end
 
@@ -54,6 +55,17 @@ module SourceImage
         if Net::HTTP.get_response(URI.parse(pic)).code == "200"
           out << pic
         end
+      end
+      out
+    end
+
+
+    def twitpic(url)
+      out = []
+      # Pull the ID from the twitpic URL
+      match = url.match /\/([^\/]+)$/
+      if match
+        out << "http://twitpic.com/show/full/#{match[1]}"
       end
       out
     end
