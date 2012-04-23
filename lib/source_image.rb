@@ -1,6 +1,10 @@
-require "source_image/version"
+require 'source_image/version'
 
 module SourceImage
   autoload :Parser,   'source_image/parser'
-  # Parser convenience helper here
+
+  # Convenience helper method
+  def self.parse(url)
+    self::Parser.new.parse(url)
+  end
 end
