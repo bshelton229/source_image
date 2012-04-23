@@ -1,6 +1,7 @@
 require 'open-uri'
 require 'uri'
 require 'net/http'
+require 'url_hunter'
 
 module SourceImage
   # Main parser class
@@ -9,7 +10,8 @@ module SourceImage
      @patterns ||= [
       [ /yfrog\.com/, :yfrog ],
       [/ow\.ly\/i\//, :owly],
-      [/twitpic\.com/, :twitpic]
+      [/twitpic\.com/, :twitpic],
+      [/say\.ly/, :whosay]
      ]
     end
 
@@ -62,6 +64,17 @@ module SourceImage
       match = url.match /\/([^\/]+)$/
       if match
         out << "http://twitpic.com/show/full/#{match[1]}"
+      end
+      out
+    end
+
+    # Whosay
+    def whosay(url)
+      out = []
+      expanded_url = UrlHunter.resolve(url)
+      search = expanded_url.match /whosay.*\/photos\/(\d+)$/
+      if search
+        out << "http://media.whosay.com/#{search[1]}/#{search[1]}_la.jpg"
       end
       out
     end
