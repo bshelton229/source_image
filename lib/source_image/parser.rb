@@ -50,11 +50,7 @@ module SourceImage
       out = []
       match = url.match /\/([^\/]+)$/
       if match
-        pic = "http://static.ow.ly/photos/normal/#{match[1]}.jpg"
-        # Check to see if this particular ow.ly link has a photo
-        if Net::HTTP.get_response(URI.parse(pic)).code == "200"
-          out << pic
-        end
+        out << "http://static.ow.ly/photos/normal/#{match[1]}.jpg"
       end
       out
     end
