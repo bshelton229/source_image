@@ -2,7 +2,7 @@ require 'open-uri'
 require 'uri'
 require 'net/http'
 require 'url_hunter'
-# require 'json'
+require 'json'
 
 module SourceImage
   # Main parser class
