@@ -13,7 +13,8 @@ module SourceImage
       [   /ow\.ly\/i\//,      :owly       ],
       [   /twitpic\.com/,     :twitpic    ],
       [   /say\.ly/,          :whosay     ],
-      [   /instagr\.am/,      :instagram  ]
+      [   /instagr\.am/,      :instagram  ],
+      [   /lockerz\.com/,     :lockerz    ]
      ]
     end
 
@@ -86,11 +87,18 @@ module SourceImage
     def instagram(url)
       out = []
       begin
-        data = open("http://api.instagram.com/oembed?url=#{url}").read
+        data = open("http://api.instagram.com/oembed?url=#{URI.escape(url)}").read
         parsed_data = JSON.parse data
         out << parsed_data["url"] if parsed_data["url"]
       rescue Exception => e
       end
+      out
+    end
+
+    # Lockerz Parser
+    def lockerz(url)
+      out = []
+      out << "http://api.plixi.com/api/tpapi.svc/imagefromurl?url=#{URI.escape(url)}&size=big"
       out
     end
   end

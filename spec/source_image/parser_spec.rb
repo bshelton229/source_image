@@ -26,6 +26,10 @@ describe SourceImage::Parser do
       @parser.parse('http://instagr.am/p/JzXc4kD8q2/').should eq(['http://distilleryimage2.instagram.com/038db7aa8e0a11e1abb01231381b65e3_7.jpg'])
     end
 
+    it "Should be able to process Locker.z images" do
+      @parser.parse('http://lockerz.com/s/203770946').should eq(['http://api.plixi.com/api/tpapi.svc/imagefromurl?url=http://lockerz.com/s/203770946&size=big'])
+    end
+
     it "Sould return an empty array for unsupported URLS" do
       @parser.parse('http://www.apple.com').should eq([])
     end
