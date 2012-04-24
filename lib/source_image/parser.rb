@@ -2,16 +2,18 @@ require 'open-uri'
 require 'uri'
 require 'net/http'
 require 'url_hunter'
+require 'json'
 
 module SourceImage
   # Main parser class
   class Parser
     def patterns
      @patterns ||= [
-      [ /yfrog\.com/, :yfrog ],
-      [/ow\.ly\/i\//, :owly],
-      [/twitpic\.com/, :twitpic],
-      [/say\.ly/, :whosay]
+      [   /yfrog\.com/,       :yfrog      ],
+      [   /ow\.ly\/i\//,      :owly       ],
+      [   /twitpic\.com/,     :twitpic    ],
+      [   /say\.ly/,          :whosay     ],
+      [   /instagr\.am/,      :instagram  ]
      ]
     end
 
@@ -75,6 +77,19 @@ module SourceImage
       search = expanded_url.match /whosay.*\/photos\/(\d+)$/
       if search
         out << "http://media.whosay.com/#{search[1]}/#{search[1]}_la.jpg"
+      end
+      out
+    end
+
+    # Instagram parser
+    # Use the instagram oembed API
+    def instagram(url)
+      out = []
+      begin
+        data = open("http://api.instagram.com/oembed?url=#{url}").read
+        parsed_data = JSON.parse data
+        out << parsed_data["url"] if parsed_data["url"]
+      rescue Exception => e
       end
       out
     end

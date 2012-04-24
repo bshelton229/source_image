@@ -22,6 +22,10 @@ describe SourceImage::Parser do
       @parser.parse('http://say.ly/FIF38Zn').should eq(["http://media.whosay.com/162434/162434_la.jpg"])
     end
 
+    it "Should be able to parse instagr.am photos" do
+      @parser.parse('http://instagr.am/p/JzXc4kD8q2/').should eq(['http://distilleryimage2.instagram.com/038db7aa8e0a11e1abb01231381b65e3_7.jpg'])
+    end
+
     it "Sould return an empty array for unsupported URLS" do
       @parser.parse('http://www.apple.com').should eq([])
     end
