@@ -7,7 +7,7 @@ describe SourceImage::Parser do
     end
 
     it "Should be able to parse a yfrog url" do
-      @parser.parse('http://yfrog.com/nwxq48p')[:media].should eq(['http://img860.imageshack.us/img860/1516/xq48.png'])
+      @parser.parse('http://yfrog.com/nwxq48p')[:media].first.should match(/\.png$/)
     end
 
     it "Should be able to parse ow.ly image pages, especially if they're pictures of the beautiful lake Mendota" do

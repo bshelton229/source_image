@@ -38,16 +38,15 @@ module SourceImage
 
     # Yfrog image parser
     def yfrog(url)
-      require 'nokogiri'
       out = []
-      match = url.match /\/([^\/]+)$/
-      if match
-        yfrog_api_url = 'http://yfrog.com/api/xmlInfo?path=' + match[1]
-        doc = Nokogiri::XML(open(yfrog_api_url))
-        # We're not interested in Videos
-        if doc.css("links video_embed").count < 1 and doc.css("links image_link").count > 0
-          out << doc.css("links image_link").first.text
-        end
+      begin
+        data = JSON.parse(open("http://www.yfrog.com/api/oembed?url=#{URI.escape(url)}").read)
+      rescue Exception => e
+        return out
+      end
+      # Bullocks
+      if data["type"] and data["type"] == 'image' and data["url"]
+        out << data["url"]
       end
       out
     end
