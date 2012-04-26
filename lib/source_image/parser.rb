@@ -18,17 +18,22 @@ module SourceImage
     # Parse a URL and return an array or pictures found
     # or an empty array
     def parse(url)
-      pics = []
       processors.each do |processor|
         patterns = processor[:pattern].kind_of?(Array) ? processor[:pattern] : [processor[:pattern]]
         patterns.each do |pattern|
           if url =~ pattern
             process = (self.send processor[:processor], url)
-            pics += process if not process.empty?
+            if not process.empty?
+              return {
+                :media => process,
+                :processor => processor[:name],
+                :url => url
+              }
+            end
           end
         end
       end
-      pics.compact.uniq
+      false
     end
 
     # Yfrog image parser
