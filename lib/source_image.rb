@@ -1,4 +1,5 @@
 require 'source_image/version'
+require 'source_image/processors'
 
 module SourceImage
   autoload :Parser,   'source_image/parser'

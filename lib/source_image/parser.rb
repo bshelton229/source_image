@@ -7,25 +7,25 @@ require 'json'
 module SourceImage
   # Main parser class
   class Parser
-    def patterns
-     @patterns ||= [
-      [   /yfrog\.com/,       :yfrog      ],
-      [   /ow\.ly\/i\//,      :owly       ],
-      [   /twitpic\.com/,     :twitpic    ],
-      [   /say\.ly/,          :whosay     ],
-      [   /instagr\.am/,      :instagram  ],
-      [   /lockerz\.com/,     :lockerz    ]
-     ]
+    # Load the processors from source_image/processors
+    extend SourceImage::Processors
+
+    # Load the external processors
+    def processors
+      self.class.processors
     end
 
     # Parse a URL and return an array or pictures found
     # or an empty array
     def parse(url)
       pics = []
-      patterns.each do |pattern|
-        if url =~ pattern[0]
-          process = (self.send pattern[1], url)
-          pics += process if not process.empty?
+      processors.each do |processor|
+        patterns = processor[:pattern].kind_of?(Array) ? processor[:pattern] : [processor[:pattern]]
+        patterns.each do |pattern|
+          if url =~ pattern
+            process = (self.send processor[:processor], url)
+            pics += process if not process.empty?
+          end
         end
       end
       pics.compact.uniq
