@@ -20,7 +20,7 @@ Gem::Specification.new do |s|
 
   # Dependencies
   s.add_runtime_dependency "nokogiri"
-  s.add_runtime_dependency "url_hunter"
+  s.add_runtime_dependency "url_hunter", '>= 0.0.2'
 
   # Development dependencies
   s.add_development_dependency 'rspec'
