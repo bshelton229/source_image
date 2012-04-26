@@ -31,6 +31,11 @@ module SourceImage
         :name => 'lockerz',
         :pattern => /lockerz\.com/,
         :processor => :lockerz
+      },
+      {
+        :name => 'flickr',
+        :pattern => [ /flic\.kr/, /flickr\.com/ ],
+        :processor => :flickr
       }
     ]
 

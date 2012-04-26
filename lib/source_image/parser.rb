@@ -106,5 +106,20 @@ module SourceImage
       out << "http://api.plixi.com/api/tpapi.svc/imagefromurl?url=#{URI.escape(url)}&size=big"
       out
     end
+
+    def flickr(url)
+      out = []
+      # Use the oembed API
+      begin
+        data = JSON.parse(open("http://www.flickr.com/services/oembed.json/?url=#{URI.escape(url)}").read)
+      rescue Exception => e
+        puts e
+        return out
+      end
+      if data["type"] and data["type"] == 'photo' and data["url"]
+        out << data["url"]
+      end
+      out
+    end
   end
 end
