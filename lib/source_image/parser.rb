@@ -25,7 +25,8 @@ module SourceImage
             process = (self.send processor[:processor], url)
             if not process.empty?
               return {
-                :media => process,
+                :media => process[:media],
+                :meta => process[:meta],
                 :processor => processor[:name],
                 :url => url
               }
@@ -38,7 +39,10 @@ module SourceImage
 
     # Yfrog image parser
     def yfrog(url)
-      out = []
+      out = {
+        :media => [],
+        :meta => nil
+      }
       begin
         data = JSON.parse(open("http://www.yfrog.com/api/oembed?url=#{URI.escape(url)}").read)
       rescue Exception => e
@@ -46,7 +50,7 @@ module SourceImage
       end
       # Bullocks
       if data["type"] and data["type"] == 'image' and data["url"]
-        out << data["url"]
+        out[:media] << data["url"]
       end
       out
     end
@@ -56,32 +60,41 @@ module SourceImage
     # and appear to consistently reoslve to
     # http://static.ow.ly/photos/normal/#{id}.jpg
     def owly(url)
-      out = []
+      out = {
+        :media => [],
+        :meta => nil
+      }
       match = url.match /\/([^\/]+)$/
       if match
-        out << "http://static.ow.ly/photos/normal/#{match[1]}.jpg"
+        out[:media] << "http://static.ow.ly/photos/normal/#{match[1]}.jpg"
       end
       out
     end
 
     # Twitpic parser
     def twitpic(url)
-      out = []
+      out = {
+        :media => [],
+        :meta => nil
+      }
       # Pull the ID from the twitpic URL
       match = url.match /\/([^\/]+)$/
       if match
-        out << "http://twitpic.com/show/full/#{match[1]}"
+        out[:media] << "http://twitpic.com/show/full/#{match[1]}"
       end
       out
     end
 
     # Whosay
     def whosay(url)
-      out = []
+      out = {
+        :media => [],
+        :meta => nil
+      }
       expanded_url = UrlHunter.resolve(url)
       search = expanded_url.match /whosay.*\/photos\/(\d+)$/
       if search
-        out << "http://media.whosay.com/#{search[1]}/#{search[1]}_la.jpg"
+        out[:media] << "http://media.whosay.com/#{search[1]}/#{search[1]}_la.jpg"
       end
       out
     end
@@ -89,11 +102,15 @@ module SourceImage
     # Instagram parser
     # Use the instagram oembed API
     def instagram(url)
-      out = []
+      out = {
+        :media => [],
+        :meta => nil
+      }
       begin
         data = open("http://api.instagram.com/oembed?url=#{URI.escape(url)}").read
         parsed_data = JSON.parse data
-        out << parsed_data["url"] if parsed_data["url"]
+        out[:meta] = parsed_data
+        out[:media] << parsed_data["url"] if parsed_data["url"]
       rescue Exception => e
       end
       out
@@ -101,13 +118,19 @@ module SourceImage
 
     # Lockerz Parser
     def lockerz(url)
-      out = []
-      out << "http://api.plixi.com/api/tpapi.svc/imagefromurl?url=#{URI.escape(url)}&size=big"
+      out = {
+        :media => [],
+        :meta => nil
+      }
+      out[:media] << "http://api.plixi.com/api/tpapi.svc/imagefromurl?url=#{URI.escape(url)}&size=big"
       out
     end
 
     def flickr(url)
-      out = []
+      out = {
+        :media => [],
+        :meta => nil
+      }
       # Use the oembed API
       begin
         data = JSON.parse(open("http://www.flickr.com/services/oembed.json/?url=#{URI.escape(url)}").read)
@@ -116,7 +139,8 @@ module SourceImage
         return out
       end
       if data["type"] and data["type"] == 'photo' and data["url"]
-        out << data["url"]
+        out[:meta] = data
+        out[:media] << data["url"]
       end
       out
     end
