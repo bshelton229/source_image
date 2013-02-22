@@ -14,12 +14,12 @@ module SourceImage
       },
       {
         :name => 'twitpic',
-        :pattern => /twitpic\.com/,
+        :pattern => %r(twitpic.com),
         :processor => :twitpic
       },
       {
         :name => 'whosay',
-        :pattern => /say\.ly/,
+        :pattern => %r(say.ly),
         :processor => :whosay
       },
       {

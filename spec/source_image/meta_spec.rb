@@ -4,6 +4,6 @@ describe "Meta" do
   end
 
   it "Flickr should return meta data" do
-    @parser.parse('http://flic.kr/p/bBqyXJ')[:meta]["title"].should be_a String
+    @parser.parse('http://www.flickr.com/photos/49354690@N04/8498281772/')[:meta]["title"].should be_a String
   end
 end

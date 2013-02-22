@@ -6,9 +6,9 @@ describe SourceImage::Parser do
       @parser = SourceImage::Parser.new
     end
 
-    it "Should be able to parse a yfrog url" do
-      @parser.parse('http://yfrog.com/nwxq48p')[:media].first.should match(/\.png$/)
-    end
+    # it "Should be able to parse a yfrog url" do
+    #   @parser.parse('http://yfrog.com/nwxq48p')[:media].first.should match(/\.png$/)
+    # end
 
     it "Should be able to parse ow.ly image pages, especially if they're pictures of the beautiful lake Mendota" do
       @parser.parse('http://ow.ly/i/mSGX')[:media].should eq(['http://static.ow.ly/photos/normal/mSGX.jpg'])
@@ -31,7 +31,7 @@ describe SourceImage::Parser do
     end
 
     it "Should be able to process flick images" do
-      @parser.parse('http://flic.kr/p/bBqyXJ')[:media].first.should include('flickr.com')
+      @parser.parse('http://www.flickr.com/photos/49354690@N04/8498281772/')[:media].first.should include('flickr.com')
     end
 
     it "Sould return an empty array for unsupported URLS" do
