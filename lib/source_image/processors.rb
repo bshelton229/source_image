@@ -9,7 +9,7 @@ module SourceImage
       # },
       {
         :name => 'owly',
-        :pattern => /ow\.ly\/i\//,
+        :pattern => %r(ow.ly/i/),
         :processor => :owly
       },
       {
@@ -29,12 +29,12 @@ module SourceImage
       },
       {
         :name => 'lockerz',
-        :pattern => /lockerz\.com/,
+        :pattern => %r(lockerz.com),
         :processor => :lockerz
       },
       {
         :name => 'flickr',
-        :pattern => [ /flic\.kr/, /flickr\.com/ ],
+        :pattern => [ %r(flic.kr), %r(flickr.com) ],
         :processor => :flickr
       }
     ]
