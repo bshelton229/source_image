@@ -24,7 +24,7 @@ module SourceImage
       },
       {
         :name => 'instagram',
-        :pattern => /instagr\.am/,
+        :pattern => [ %r(instagr.am), %r(instagram.com) ],
         :processor => :instagram
       },
       {
