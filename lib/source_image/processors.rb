@@ -2,11 +2,11 @@ module SourceImage
   module Processors
     # Default processors
     @@processors = [
-      {
-        :name => 'yfrog',
-        :pattern => /yfrog\.com/,
-        :processor => :yfrog
-      },
+      # {
+      #   :name => 'yfrog',
+      #   :pattern => /yfrog\.com/,
+      #   :processor => :yfrog
+      # },
       {
         :name => 'owly',
         :pattern => /ow\.ly\/i\//,
