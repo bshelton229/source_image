@@ -138,9 +138,9 @@ module SourceImage
         puts e
         return out
       end
-      if data["type"] and data["type"] == 'photo' and data["url"]
+      if data["type"] and data["type"] == 'photo' and (data["url"] || data["thumbnail_url"])
         out[:meta] = data
-        out[:media] << data["url"]
+        out[:media] << data["url"] || data["thumbnail_url"]
       end
       out
     end
