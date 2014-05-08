@@ -119,7 +119,7 @@ module SourceImage
       }
       # Use the oembed API
       begin
-        data = JSON.parse(open("http://www.flickr.com/services/oembed.json/?url=#{URI.escape(url)}").read)
+        data = JSON.parse(open("https://www.flickr.com/services/oembed.json/?url=#{URI.escape(url)}").read)
       rescue Exception => e
         puts e
         return out
