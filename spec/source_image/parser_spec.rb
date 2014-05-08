@@ -15,7 +15,7 @@ describe SourceImage::Parser do
     end
 
     it "Should be able to parse instagr.am photos" do
-      @parser.parse('http://instagr.am/p/JzXc4kD8q2/')[:media].should eq(['http://distilleryimage2.s3.amazonaws.com/038db7aa8e0a11e1abb01231381b65e3_7.jpg'])
+      @parser.parse('http://instagr.am/p/JzXc4kD8q2/')[:media].should eq(['http://distilleryimage2.ak.instagram.com/038db7aa8e0a11e1abb01231381b65e3_7.jpg'])
     end
 
     it "Should be able to process Locker.z images" do
