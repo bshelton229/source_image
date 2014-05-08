@@ -85,20 +85,6 @@ module SourceImage
       out
     end
 
-    # Whosay
-    def whosay(url)
-      out = {
-        :media => [],
-        :meta => nil
-      }
-      expanded_url = UrlHunter.resolve(url)
-      search = expanded_url.match /whosay.*\/photos\/(\d+)$/
-      if search
-        out[:media] << "http://media.whosay.com/#{search[1]}/#{search[1]}_la.jpg"
-      end
-      out
-    end
-
     # Instagram parser
     # Use the instagram oembed API
     def instagram(url)

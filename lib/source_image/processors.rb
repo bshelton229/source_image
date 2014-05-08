@@ -18,11 +18,6 @@ module SourceImage
         :processor => :twitpic
       },
       {
-        :name => 'whosay',
-        :pattern => %r(say.ly),
-        :processor => :whosay
-      },
-      {
         :name => 'instagram',
         :pattern => [ %r(instagr.am), %r(instagram.com) ],
         :processor => :instagram
